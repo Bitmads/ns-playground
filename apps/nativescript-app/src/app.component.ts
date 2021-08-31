@@ -6,10 +6,8 @@ import { AppBaseComponent } from '@ns-playground/xplat/nativescript/features';
   selector: 'ns-playground-root',
   template: `
     <RootLayout (loaded)="onRootLayoutLoad($event)">
-      <!--page-router-outlet></page-router-outlet-->
       <GridLayout rows="*, auto">
         <StackLayout
-          [ngSwitch]="mainTabs.selectedTabIndex"
           row="0"
         >
           <GridLayout [hidden]="mainTabs.selectedTabIndex !== 0">
