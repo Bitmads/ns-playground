@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { BaseComponent } from '@ns-playground/xplat/core';
 import {HttpClient} from "@angular/common/http";
 import {timer} from "rxjs";
-import {filter, switchMap} from "rxjs/operators";
+import {filter, switchMap, takeUntil} from "rxjs/operators";
 
 @Component({
   moduleId: module.id,
@@ -18,13 +18,13 @@ export class HomeComponent extends BaseComponent {
 
   loading = false;
   data:any;
-  setIntervals:any;
+  setIntervals:any = {};
 
   ngOnInit() {
-    console.log('HOME INIT');
+    console.log('HOME INIT ');
     this.get();
 
-    this.setIntervals['getThread'] = timer(0, 1000).subscribe((t:any) => {
+    this.setIntervals['getThread'] = timer(0, 1000).pipe(takeUntil(this.destroy$)).subscribe((t:any) => {
       console.log('tick', t);
 
 
