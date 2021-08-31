@@ -1,0 +1,64 @@
+{
+  "npmScope": "ns-playground",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "NTJhNjM5OTQtZjVmOS00MWFiLWE4YmQtMzU1NDVmM2I2MzQ1fHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "xplat-core": {
+      "tags": []
+    },
+    "xplat-features": {
+      "tags": []
+    },
+    "xplat-nativescript-core": {
+      "tags": []
+    },
+    "xplat-nativescript-features": {
+      "tags": []
+    },
+    "xplat-nativescript-scss": {
+      "tags": []
+    },
+    "xplat-nativescript-utils": {
+      "tags": []
+    },
+    "xplat-scss": {
+      "tags": []
+    },
+    "xplat-utils": {
+      "tags": []
+    },
+    "nativescript-app": {
+      "tags": []
+    }
+  }
+}

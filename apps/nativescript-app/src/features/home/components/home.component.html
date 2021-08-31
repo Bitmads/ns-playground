@@ -1,0 +1,16 @@
+<ActionBar title="Home">
+
+</ActionBar>
+<StackLayout class="p-20">
+
+  <Label class="text-center" text="{{data | json}}" [hidden]="!data"></Label>
+  <Label class="text-center" text="Loading data, please wait..." [hidden]="data"></Label>
+  <Label
+    [hidden]="!data"
+    [text]="'Navigate Forward >>'"
+    color="blue"
+    [nsRouterLink]="['/',{outlets:{profile:['home','settings']}}]"
+    class="h3 p-10 text-center"
+  ></Label>
+</StackLayout>
+
