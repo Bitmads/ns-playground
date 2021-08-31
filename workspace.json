@@ -230,7 +230,8 @@
         "ios": {
           "executor": "@nativescript/nx:build",
           "options": {
-            "platform": "ios"
+            "platform": "ios",
+            "noHmr": true
           },
           "configurations": {
             "build": {

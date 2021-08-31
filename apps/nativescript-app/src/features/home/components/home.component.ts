@@ -4,6 +4,8 @@ import { BaseComponent } from '@ns-playground/xplat/core';
 import {HttpClient} from "@angular/common/http";
 import {timer} from "rxjs";
 import {filter, switchMap, takeUntil} from "rxjs/operators";
+import { PageService } from '@nativescript/angular';
+import { NavigatedData } from '@nativescript/core';
 
 @Component({
   moduleId: module.id,
@@ -11,7 +13,7 @@ import {filter, switchMap, takeUntil} from "rxjs/operators";
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent {
-  constructor(protected http:HttpClient) {
+  constructor(protected http:HttpClient, private pageService: PageService) {
     super();
 
   }
@@ -21,13 +23,17 @@ export class HomeComponent extends BaseComponent {
   setIntervals:any = {};
 
   ngOnInit() {
-    console.log('HOME INIT ');
+    console.log('HOME INIT');
+    this.pageService.inPage$.pipe(takeUntil(this.destroy$)).subscribe(inPage => {
+      console.log('inPage:', inPage);
+    })
+    this.pageService.pageEvents$.pipe(takeUntil(this.destroy$)).subscribe((navigatedData: NavigatedData) => {
+      console.log('navigatedData:', navigatedData);
+    })
     this.get();
 
-    this.setIntervals['getThread'] = timer(0, 1000).pipe(takeUntil(this.destroy$)).subscribe((t:any) => {
+    timer(0, 1000).pipe(takeUntil(this.destroy$)).subscribe((t:any) => {
       console.log('tick', t);
-
-
     });
   }
 

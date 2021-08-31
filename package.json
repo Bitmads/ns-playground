@@ -2,11 +2,14 @@
   "name": "ns-playground",
   "version": "0.0.0",
   "license": "MIT",
+  "workspaces": [
+    "apps/nativescript-app"
+  ],
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "clean": "npx rimraf hooks node_modules package-lock.json && yarn config set ignore-engines true && ns package-manager set npm && yarn"
+    "clean": "npx rimraf hooks node_modules package-lock.json yarn.lock && ns package-manager set yarn && yarn"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +24,7 @@
     "@angular/platform-browser": "^12.0.0",
     "@angular/platform-browser-dynamic": "^12.0.0",
     "@angular/router": "^12.0.0",
+    "@nativescript-community/ui-material-bottomnavigationbar": "^5.3.21",
     "@ngx-translate/core": "~13.0.0",
     "rxjs": "^6.6.0",
     "zone.js": "~0.11.1",
