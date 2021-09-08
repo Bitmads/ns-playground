@@ -15,13 +15,12 @@ try {
 }
 
 // Helpful to trigger ngcc after an install to ensure all has processed properly
-const relativePath = '../../'.split('/').filter(p => !!p);
-const ngccPath = path.join(...relativePath, 'node_modules', '.bin', 'ngcc');
+const ngccPath = require.resolve('@angular/compiler-cli/ngcc/main-ngcc.js');
 const child = childProcess.spawn(ngccPath, ['--tsconfig', 'tsconfig.app.json', '--properties', 'es2015', 'module', 'main', '--first-only'], {
   cwd: process.cwd(),
-  stdio: 'inherit',
-  shell: process.platform == 'win32'
+  shell: process.platform == 'win32',
 });
-child.on('close', (code) => {
-
+child.stdout.setEncoding('utf8');
+child.stdout.on('data', function (data) {
+  console.log(data);
 });

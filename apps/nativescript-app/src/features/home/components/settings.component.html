@@ -5,12 +5,10 @@
     (tap)="goBack()"
   ></NavigationButton>
 </ActionBar>
-<StackLayout class="p-20">
+<StackLayout class="p-20" (tap)="goBack()">
   <Label
     automationText="helloLabel"
     [text]="'SETTINGS'"
-    [nsRouterLink]="['/',{outlets:{profile:['home']}}]"
-
     class="h1 p-10 text-center"
   ></Label>
 </StackLayout>
