@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 import { BaseComponent } from '@ns-playground/xplat/core';
 import {HttpClient} from "@angular/common/http";
-import {timer} from "rxjs";
+import {Subject, timer} from "rxjs";
 import {filter, switchMap, takeUntil} from "rxjs/operators";
 import { PageService } from '@nativescript/angular';
-import { NavigatedData } from '@nativescript/core';
+import { NavigatedData, Page } from '@nativescript/core';
 
 @Component({
   moduleId: module.id,
@@ -13,28 +13,39 @@ import { NavigatedData } from '@nativescript/core';
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent {
-  constructor(protected http:HttpClient, private pageService: PageService) {
-    super();
+  _intervalStop$: Subject<void>;
 
+  constructor(protected http:HttpClient, private page: Page) {
+    super();
+    this.page.on('navigatedFrom', () => {
+      console.log('navigatedFrom')
+      this._intervalStop$.next();
+      this._intervalStop$.complete();
+      this._intervalStop$ = null;
+    });
+    this.page.on('navigatedTo', () => {
+      console.log('navigatedTo');
+      if (!this._intervalStop$) {
+        this._setupInterval();
+      }
+    });
   }
 
   loading = false;
   data:any;
-  setIntervals:any = {};
+
+  get intervalStop$() {
+    if (!this._intervalStop$) {
+      this._intervalStop$ = new Subject();
+    }
+    return this._intervalStop$;
+  }
 
   ngOnInit() {
     console.log('HOME INIT');
-    this.pageService.inPage$.pipe(takeUntil(this.destroy$)).subscribe(inPage => {
-      console.log('inPage:', inPage);
-    })
-    this.pageService.pageEvents$.pipe(takeUntil(this.destroy$)).subscribe((navigatedData: NavigatedData) => {
-      console.log('navigatedData:', navigatedData);
-    })
     this.get();
 
-    timer(0, 1000).pipe(takeUntil(this.destroy$)).subscribe((t:any) => {
-      console.log('tick', t);
-    });
+    this._setupInterval();
   }
 
   get(){
@@ -45,5 +56,11 @@ export class HomeComponent extends BaseComponent {
       this.loading = false;
       this.data = response;
     })
+  }
+
+  private _setupInterval() {
+    timer(0, 1000).pipe(takeUntil(this.intervalStop$)).subscribe((t:any) => {
+      console.log('tick', t);
+    });
   }
 }
